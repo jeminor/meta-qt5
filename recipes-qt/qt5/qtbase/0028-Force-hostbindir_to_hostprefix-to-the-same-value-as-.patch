@@ -1,0 +1,26 @@
+From 4ccf747556f7e455cf495df29f164faf64c6014d Mon Sep 17 00:00:00 2001
+From: James Minor <james.minor@ni.com>
+Date: Fri, 29 Mar 2024 15:01:59 -0500
+Subject: [PATCH] Force hostbindir_to_hostprefix to the same value as
+ hostbindir_to_extprefix
+
+---
+ configure.pri | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/configure.pri b/configure.pri
+index 365a16403e..c77d3eaf4d 100644
+--- a/configure.pri
++++ b/configure.pri
+@@ -854,7 +854,7 @@ defineTest(qtConfOutput_preparePaths) {
+     export(config.qtbase.features.shared.available)
+ 
+     hostbindir_absolute_path = $$absolute_path($$config.rel_input.hostbindir, $$config.input.hostprefix)
+-    config.input.hostbindir_to_hostprefix = $$relative_path($$config.input.hostprefix, $$hostbindir_absolute_path)
++    config.input.hostbindir_to_hostprefix = $$relative_path($$config.input.extprefix, $$hostbindir_absolute_path)
+     config.input.hostbindir_to_extprefix = $$relative_path($$config.input.extprefix, $$hostbindir_absolute_path)
+ 
+     !isEmpty(PREFIX_COMPLAINTS) {
+-- 
+2.25.1
+

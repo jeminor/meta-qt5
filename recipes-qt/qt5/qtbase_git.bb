@@ -48,6 +48,9 @@ SRC_URI += "\
     file://0027-xkb-fix-build-with-libxkbcommon-1.6.0-and-later.patch \
     file://0001-CVE-2023-51714-qtbase-5.15.diff \
     file://0002-CVE-2023-51714-qtbase-5.15.diff \
+    file://0028-Force-hostbindir_to_hostprefix-to-the-same-value-as-.patch \
+    file://0029-strip-hostinfo.patch \
+    file://0030-remove-SRCDIR-tests.patch \
 "
 
 # Disable LTO for now, QT5 patches are being worked upstream, perhaps revisit with
@@ -283,7 +286,9 @@ do_install:append() {
     echo "isEmpty(QMAKE_LINK_SHLIB): QMAKE_LINK_SHLIB = $OE_QMAKE_LINK_NO_SYSROOT" >> $conf
     echo "isEmpty(QMAKE_LINK_C): QMAKE_LINK_C = $OE_QMAKE_LINK_NO_SYSROOT" >> $conf
     echo "isEmpty(QMAKE_LINK_C_SHLIB): QMAKE_LINK_C_SHLIB = $OE_QMAKE_LINK_NO_SYSROOT" >> $conf
-    echo "isEmpty(QMAKE_LFLAGS): QMAKE_LFLAGS = ${OE_QMAKE_LDFLAGS}" >> $conf
+    # OE_QMAKE_LFLAGS contains path of the build host, which is not useful for the target.
+    echo "isEmpty(QMAKE_LFLAGS): QMAKE_LFLAGS = ${OE_QMAKE_LDFLAGS}" | sed -e 's/-fdebug-prefix-map=[^ ]*//g' | sed -e 's/-fmacro-prefix-map=[^ ]*//g' >> $conf
+    #echo "isEmpty(QMAKE_LFLAGS): QMAKE_LFLAGS = ${OE_QMAKE_LDFLAGS}" >> $conf
     echo "isEmpty(QMAKE_OBJCOPY): QMAKE_OBJCOPY = ${TARGET_PREFIX}objcopy" >> $conf
     echo "isEmpty(QMAKE_STRIP): QMAKE_STRIP = ${TARGET_PREFIX}strip" >> $conf
     echo "isEmpty(CC_host): CC_host = ${CC_host}" >> $conf

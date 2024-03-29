@@ -1,0 +1,29 @@
+Index: git/configure.pri
+===================================================================
+--- git.orig/configure.pri
++++ git/configure.pri
+@@ -889,11 +889,11 @@ defineTest(qtConfOutput_preparePaths) {
+     QT_CONFIGURE_STR_OFFSETS =
+     QT_CONFIGURE_STRS =
+ 
+-    addConfStr($$config.input.sysroot)
++    addConfStr("/")
+     addConfStr($$qmake_sysrootify)
+-    addConfStr($$config.rel_input.hostbindir)
+-    addConfStr($$config.rel_input.hostlibdir)
+-    addConfStr($$config.rel_input.hostdatadir)
++    addConfStr($$config.rel_input.bindir)
++    addConfStr($$config.rel_input.libdir)
++    addConfStr($$config.rel_input.datadir)
+     addConfStr($$XSPEC)
+     addConfStr($$[QMAKE_SPEC])
+ 
+@@ -902,7 +902,7 @@ defineTest(qtConfOutput_preparePaths) {
+         "static const char qt_configure_prefix_path_str  [12+512] = \"qt_prfxpath=$$config.input.prefix\";" \
+         "$${LITERAL_HASH}ifdef QT_BUILD_QMAKE" \
+         "static const char qt_configure_ext_prefix_path_str   [12+512] = \"qt_epfxpath=$$config.input.extprefix\";" \
+-        "static const char qt_configure_host_prefix_path_str  [12+512] = \"qt_hpfxpath=$$config.input.hostprefix\";" \
++        "static const char qt_configure_host_prefix_path_str  [12+512] = \"qt_hpfxpath=$$config.input.extprefix\";" \
+         "$${LITERAL_HASH}endif" \
+         "" \
+         "static const short qt_configure_str_offsets[] = {" \
